@@ -81,9 +81,28 @@ function switchTab(e) {
 
 function toggleAddExpensesBtn(e) {
   console.log(addExpensesBtn, addIncomeBtn)
+
   if(!e.target.classList.contains('tab--expenses')) {
     addExpensesBtn.classList.add('hidden');
   } else {
     addExpensesBtn.classList.remove('hidden');
   };
+};
+
+function showExpAddBtn(e) {
+  addExpensesBtn.classList.remove('hidden');
+};
+
+function hideExpAddBtn(e) {
+  console.log(e.target)
+  addExpensesBtn.classList.add('hidden');
+};
+
+function showIncAddBtn(e) {
+  addIncomeBtn.classList.remove('hidden');
+};
+
+function hideIncAddBtn(e) {
+  console.log(e.target)
+  addIncomeBtn.classList.add('hidden');
 };

@@ -2,18 +2,20 @@
 
   &__wrapper {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
 
     div {
+      width: 48%;
       border: $black 1px solid;
       border-radius: 7px;
 
         &:not(:last-child) {
           margin-bottom: 6px;
-          @media screen and (min-width: 380px) {
+
+          @media screen and (min-width: 500px) {
             margin-bottom: 0;
             margin-right: 6px;
           }
@@ -27,8 +29,8 @@
     }
     
 
-    @media screen and (min-width: 380px) {
-      flex-direction: row;
+    @media screen and (min-width: 500px) {
+      flex-wrap: nowrap;
     }
   }
 

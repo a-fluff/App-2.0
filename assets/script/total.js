@@ -46,8 +46,6 @@ function changeTotalOperation(e) {
 
 
 //получение номера редактриуемой операции
-//!ошибка здеь
-//маловероятно(
 function getOperationNumber(target) {
   let wrapperTotal = document.querySelectorAll('.total-output__wrapper');
 
@@ -56,18 +54,28 @@ function getOperationNumber(target) {
 
 let opertaionNumber = null;
 
-//Записываю в значения в модальном окне
+//Запись в значения в модальном окне
 function editTotalOperation(index) {
   opertaionNumber = index;
 
   let operation = total[index];
 
-  //Обращаюсь к записи массива тотал
+  //Обращение к записи массива тотал
   editOperationSum.value = operation.sum;
   editOperationCategory.value = operation.category;
   editOperationDate.value = operation.date;
 
   openModal();
+};
+
+function searchDate(a) {
+  let date = new Date(a);
+
+  if(date.toISOString().slice(0, 10) == renderTodayDate()) {
+    return 'Сегодня'
+  } else {
+    return date.toLocaleDateString('ru', options); 
+  };
 };
 
 function deleteTotalOperation(index) {
@@ -78,7 +86,7 @@ function deleteTotalOperation(index) {
 
     renderTotal(total);
 
-    console.log(total, totalExpenses, totalIncome)
+    console.log(total);
 
     let wrappers = document.querySelectorAll('.expenses-output__wrapper');
     let expensesOperations = document.querySelectorAll('.expenses-output');
@@ -87,30 +95,29 @@ function deleteTotalOperation(index) {
     let expensesCategory = document.querySelectorAll('.expenses-title');
     let expensesDateOutput = document.querySelectorAll('.expenses-date');
 
-
+    //Поиск удалённой записи
     let a = Array.from(expensesSum).findIndex(item => item.textContent == -deletedOperation[0].sum);
     let b = Array.from(expensesCategory).findIndex(item => item.textContent == deletedOperation[0].category);
-    // let c = Array.from(expensesDateOutput).findIndex(item => item == searchDate(deletedOperation[0].date)); 
-    //!неправильно с зависит от количества операций в обертке, не всегда Б и на 1
-    let c = expensesDates.findIndex(item => deletedOperation[0].date);
 
-    console.log(wrappers.length, expensesOperations.length)
+    if(a == b) {
+      let deletedExpensesOperation = expensesOperations[a].parentElement.previousElementSibling;
 
-    // if(Array.from(wrapperTotal).find(item => item.children.length <= 1)) {
-    //   if(a === b && b === c) {
-    //     console.log('В КАЖДОМ ВРАППЕРЕ ПО ОДНОМУ')
-    //     wrappers[a].remove();
-    //     expensesDateOutput[a].remove();
-    //   };
-    // } else {
-    //   if(a === b && (b - c == 1)) {
-    //     console.log('ВО ВРАППЕРАХ ЕСТЬ НЕСКОЛЬКО ЗАПИСЕЙ');
-    //     expensesOperations[a].remove()
-    //   };
-    // };
+      console.log(deletedExpensesOperation.textContent, searchDate(deletedOperation[0].date), expensesOperations[a].previousElementSibling,  expensesOperations[a].nextElementSibling)
 
-
-    console.log(a, b, c);
+      if(deletedExpensesOperation.textContent == searchDate(deletedOperation[0].date)) {
+        if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
+          console.log('here')
+          expensesOperations[a].remove();
+        } else {
+          console.log('here')
+          deletedExpensesOperation.remove();
+          expensesOperations[a].parentElement.remove();
+        };
+      };
+    };
+    
+    console.log(a, b);
+    console.log(total)
   };
 };
 
@@ -134,17 +141,88 @@ function saveTotal(){
   
   // console.log(index);
 
-  total[index].sum = editOperationSum.value;
-  total[index].category = editOperationCategory.value;
-  total[index].date = editOperationDate.value;
+  // console.log(opertaionNumber)
+
+
+  //Поиск изменённой записи
+  //!both exp and income
+
+  let expensesOperations = document.querySelectorAll('.expenses-output');
+  let expensesSum = document.querySelectorAll('.expenses-spent');
+  let expensesCategory = document.querySelectorAll('.expenses-title');
+
+  if(total[opertaionNumber].operation == 'expenses') {
+    console.log(expensesOperations)
+    let searchEditedTitle = null;
+    let searchEditedSum = null;
+    let searchEditedDate = null;
+
+    searchEditedTitle = searchEditedTitle = total[opertaionNumber].category;
+    searchEditedSum = total[opertaionNumber].sum;
+    searchEditedDate = searchDate(total[opertaionNumber].date);//старое значение
+
+    console.log(searchEditedTitle, searchEditedSum, searchEditedDate);
+
+    //!Новые значения, которые нужно переписыть в экспенсис
+    total[opertaionNumber].sum = editOperationSum.value;
+    total[opertaionNumber].category = editOperationCategory.value;
+    total[opertaionNumber].date = editOperationDate.value; //новое значение
+
+    console.log(total, searchEditedTitle)
+
+    //Номер
+    let a  = Array.from(expensesSum).findIndex(item => item.textContent == -searchEditedSum);
+    let b = Array.from(expensesCategory).findIndex(item => item.textContent == searchEditedTitle);
+
+    if(a == b) {
+      //значение из записи в expenses
+      let editedExpensesOperationDate = expensesOperations[a].parentElement.previousElementSibling;
+
+      console.log(searchEditedDate)
+  
+      if(editedExpensesOperationDate.textContent == searchEditedDate) {
+        if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
+          console.log('ОТРЕДАЧ ЗАПИСЬ ОДНОГО ЧИСЛА');
+
+          console.log(expensesOperations[a])
+
+          //!перезапись в:
+          expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
+          expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+          expensesOperations[a].parentElement.previousElementSibling.textContent = total[opertaionNumber].date;
+
+
+        } else {
+          console.log('ОТРЕДАЧ ЗАПИСЬ НОВОГО ЧИСЛА');
+
+          expensesOperations[a].querySelector('.expenses-spent').textContent = total[opertaionNumber].sum;
+          expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+          expensesOperations[a].parentElement.previousElementSibling.textContent = total[opertaionNumber].date;
+          // wrapper.remove();
+          // operationDateOutput.remove();
+        };
+      };
+    };
+
+
+
+
+
+    console.log(a, b);
+
+    searchEditedTitle = null;
+    searchEditedSum = null;
+    searchEditedDate = null;
+
+
+
+  };
 
   filterTotal(total);
   
   closeModal();
-  // console.log(findOperation === total[0])
-  console.log(total)
-  // console.log(findOperation, total[0])
- // console.log(total.forEach(operation => Object.values(operation) == Object.values(findOperation)))
+
+  console.log(total);
 };
 
 backTotalBtn.addEventListener("click", closeModal);

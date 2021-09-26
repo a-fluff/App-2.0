@@ -465,19 +465,20 @@ select {
 
 .filter__wrapper {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 .filter__wrapper div {
+  width: 48%;
   border: #312c2c 1px solid;
   border-radius: 7px;
 }
 .filter__wrapper div:not(:last-child) {
   margin-bottom: 6px;
 }
-@media screen and (min-width: 380px) {
+@media screen and (min-width: 500px) {
   .filter__wrapper div:not(:last-child) {
     margin-bottom: 0;
     margin-right: 6px;
@@ -489,9 +490,9 @@ select {
   border: none;
   padding: 1px 3px;
 }
-@media screen and (min-width: 380px) {
+@media screen and (min-width: 500px) {
   .filter__wrapper {
-    flex-direction: row;
+    flex-wrap: nowrap;
   }
 }
 .content {
@@ -634,9 +635,6 @@ select {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-}
-.modal-window:target:not(#add-category) {
-  height: max-content;
 }
 .modal-window__header {
   background: #2DDAA5;

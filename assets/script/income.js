@@ -20,7 +20,6 @@ addIncomeBtn.addEventListener('click', function() {
 saveIncomeBtn.addEventListener('click', saveIncome);
 
 function saveIncome(e) {
-  //!должно быть еще условие по иконке + валидация суммы
   if(incomeSum.value && iconIncomeChosen) {
 
     //добавление записи уже существующей даты

@@ -12,7 +12,9 @@ let iconExpensesChosen = false;
 
 
 
-addExpensesBtn.addEventListener('click', function() {
+addExpensesBtn.addEventListener('click', function(e) {
+  hideExpAddBtn(e);
+
   expensesDate.value = renderTodayDate();
 
   createOperatioWrapper('expenses');
@@ -73,19 +75,23 @@ function createOperatioWrapper(operation) {
 saveExpensesBtn.addEventListener('click', saveExpenses);
 
 function saveExpenses(e) {
-  //!должно быть еще условие по иконке + валидация суммы
   if(expensesSum.value && iconExpensesChosen) {
-    // wrappersExpenses = document.querySelectorAll('.tab--expenses .expenses-output__wrapper');
-    // console.log(wrappersExpenses);
 
-    //Добавление записи уже существующей даты
     if(expensesDates.find(item => item == expensesDate.value)) {
-      console.log('expenses', expensesDate, expensesDates)
+
+      console.log(total)
+
       addExpensesSameDate();
+
+      console.log(total)
 
       addOperation("expenses");
 
+      console.log(total)
+
       sortOperations(total);
+
+      console.log(total)
 
       clearExpensesForm();
     } else {
@@ -116,10 +122,13 @@ function saveExpenses(e) {
   };
 
   wrappersExpenses = document.querySelectorAll('.tab--expenses .expenses-output__wrapper');
+  console.log(wrappersExpenses)
 
-  renderTotal(total); //!запустила рендер вручную - так не нужно было, но не работает из init.js
+  renderTotal(total);
 
   window.location.href = "#";
+
+  showExpAddBtn(e);
 };
 
 function sortEarlierExpensesDates(expensesDateOutputAll) {
@@ -174,19 +183,22 @@ function getExpensesNumber() {
   return expensesDates.indexOf(expensesDate.value);
 };
 
-//Добавление записи в итоги
+//Добавление записи в тотал
 function addOperation(operation) {
   flagOperation = operation;
 
   if(operation == "expenses") {
-    let expensesSum = document.querySelectorAll('.expenses-spent');
-    let expensesCategory = document.querySelectorAll('.expenses-title');
-
-    //Получение порядкового номера обёртки расходов
     let index = getExpensesNumber();
 
-    let currentExpensesSum = expensesSum[index];
-    let currentExpensesCategory = expensesCategory[index];
+    let wrappersExpenses = document.querySelectorAll('.tab--expenses .expenses-output__wrapper');
+
+    let expensesSum = wrappersExpenses[index].querySelectorAll('.expenses-spent');
+    let expensesCategory = wrappersExpenses[index].querySelectorAll('.expenses-title');
+
+    console.log(expensesSum, expensesCategory)
+
+    let currentExpensesSum = expensesSum[0];
+    let currentExpensesCategory = expensesCategory[0];
 
     let newExpenses = {
       sum: currentExpensesSum.textContent.slice(1),
@@ -195,21 +207,18 @@ function addOperation(operation) {
       operation: flagOperation
     };
 
-    // totalExpenses.push(newExpenses);
-
     total.push(newExpenses);
-    //!
-    // total = [...totalExpenses, ...totalIncome];
-
 
     clearExpensesForm();
   } else if(operation == "income") {
-    let incomeSum = document.querySelectorAll('.income-received');
-    let incomeCategory = document.querySelectorAll('.income-title');
-  
+ 
     let index = getIncomeNumber();
-    
-    console.log(index)
+
+    let wrappersIncome= document.querySelectorAll('.tab--income .income-output__wrapper');
+
+    let incomeSum = wrappersIncome[index].querySelectorAll('.income-received');
+    let incomeCategory = wrappersIncome[index].querySelectorAll('.income-title');
+
   
     let currentIncomeSum = incomeSum[index];
     let currentIncomeCategory = incomeCategory[index];
@@ -222,11 +231,6 @@ function addOperation(operation) {
     };
 
     total.push(newIncome);
-
-    // totalIncome.push(newIncome);
-
-    // //!
-    // total = [...totalExpenses, ...totalIncome];
   
     clearIncomeForm();
   
@@ -346,7 +350,9 @@ function addExpenses() {
 backExpensesBtn.addEventListener('click', deleteExpensesWrapper);
 
 //Удаление пустой обёртки
-function deleteExpensesWrapper() {
+function deleteExpensesWrapper(e) {
+  showExpAddBtn(e);
+  
   if(window.location.href = "#add-expenses") {
     let permission = confirm('Сохранить изменения операции?');
 
@@ -410,7 +416,7 @@ function unSelectItem() {
   Array.from(document.querySelectorAll('.selected')).forEach(item => item.classList.remove('selected'));
 };
 
-//Рендер записей расходов //!мб здесь что-то после изменения в тотале
+//Рендер записей расходов
 function renderExpensesNotes(category, value) {
   let expensesCategory = document.querySelectorAll('.expenses-title');
 
@@ -432,7 +438,7 @@ function templateCategory(name) {
   wrapperCategory.className = 'categories__item';
 
   let iconWrapper = document.createElement('div');
-  iconWrapper.className = 'icon__wrapper'; //!
+  iconWrapper.className = 'icon__wrapper';
 
   let icon = document.createElement('img');
   icon.className = 'categories__item-icon';

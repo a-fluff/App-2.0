@@ -36,9 +36,9 @@
     opacity: 1;
     pointer-events: auto;
 
-    &:not(#add-category) {
-      height: max-content;
-    }
+    // &:not(#add-category) {
+    //   height: max-content;
+    // }
   }
 
   &__header {
