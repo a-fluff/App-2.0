@@ -1,0 +1,103 @@
+.container {
+}
+.header {
+  background-color: rgba(255, 255, 255, 0.6);
+  position: sticky;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  &__wrapper {
+    max-width: 700px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: auto;
+    margin-right: 8px;
+
+    @media screen and (min-width: 720px) {
+      padding: 20px 0;
+      margin: auto;
+    }
+
+    // @media screen and (min-width: 500px) {
+    //   position: relative;
+    //   margin-left: 0;
+    //   margin: auto;
+    //   left: 0;
+    // }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    // margin-right: 20px;
+    // !только в телефоне
+  }
+}
+
+.logo {
+
+  &__icon {
+    @media screen and (min-width: 500px) {
+      margin-right: 10px;
+    }
+  }
+
+  &__text {
+    @include font($fontPacifico, 400, 30px, auto)
+  }
+}
+.menu {
+
+  &__list {
+  }
+
+  &__item {
+  }
+
+  &__link {
+  }
+}
+.total {
+
+  &__wrapper {
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (min-width: 500px) {
+      flex-direction: row;
+      margin-top: 12px;
+    }
+    
+    p:last-of-type {
+      font-weight: bold;
+
+      @media screen and (min-width: 500px) {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+.select-currency {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+
+  @media screen and (min-width: 500px) {
+    margin-left: 8px;
+  }
+}
+
+.input-group {
+  margin: 0 auto;
+  width: 80%;
+  height: 40px;
+}

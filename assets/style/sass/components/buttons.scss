@@ -1,0 +1,126 @@
+.btn {
+  border: none;
+
+  &__wrapper {
+    width: 100px;
+    height: 96.6px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &--open {
+    // width: 48.2px;
+    // display: block;
+    font-size: 25px;
+    //font-weight: bold;
+    background-color: $green;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(black, 0.3);
+    border-radius: 50%;
+    padding: 10px 17px;
+    //margin: auto;
+    //margin-bottom: 30px;
+
+    position:fixed;
+    z-index: 99999;
+
+    @media screen and (min-width: 320px) {      
+      right: 30px;
+      bottom: 30px;
+    }
+
+    @media screen and (min-width: 720px) {      
+      right: 50px;
+      bottom: 50px;
+    }
+    
+    &:hover {
+      box-shadow: 0 0 5px rgba(black, 0.3);
+    }
+  }
+
+  &--add-category, &--unfold {
+    width: 80px;
+    height: 83.2px;
+    color: #000000;
+    font-weight: 300;
+    background-color: rgba($green, 0.4);
+    border-radius: 50%;
+    padding: 4px 23px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    
+    &:hover {
+      cursor: pointer;
+      background-color: $green;
+      box-shadow: 0 10px 10px rgba(0, 0, 0, .2);
+    }
+  }
+
+  &--back {
+    
+  }
+
+  &--save {
+    &-categories {
+
+    }
+  }
+  &--unfold {
+    width: 65px;
+    height: 68.2px;
+    font-size: 40px;
+    padding: 0 18px;
+    text-align: center;
+  }
+  &--fold {
+    font-size: 15px;
+    font-weight: 400;
+    color: #26b388;
+    background: transparent;
+    float: right;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    //padding: 0 7px;
+  }
+  &--add-category {
+    font-size: 50px;
+    text-align: center;
+    padding: 10px 22px;
+    position: relative;
+    right: 0;
+    bottom: 0;
+  }
+  &--expenses-category, &--income-category, &--save-category {
+    font-weight: 300;
+    background-color: rgba($green, 0.4);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    padding: 8px 10px;
+
+    // @media screen and (min-width: 425px) {
+    //   margin-top: -30px;
+    //   padding: 5.5px 10px;
+    //   border-top-left-radius: 0px;
+    //   border-bottom-left-radius: 0px;
+    // }
+
+    &:hover {
+      color: #ffffff;
+      background: #26b388;
+      cursor: pointer;
+      background-color: $green;
+      box-shadow: 0 10px 10px rgba(0, 0, 0, .2);
+    }
+  }
+}
+
+.categories__item .btn--save-category {
+  margin-left: 10px;
+  width: 85px;
+}
+.buttons__wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}

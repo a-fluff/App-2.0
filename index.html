@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" media="prefers-color-scheme: light" content="white">
+  <link rel="shortcut icon" href="assets/icons/page-icon-coin.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/style/sass/style.css">
+  <title>Копейка - учёт доходов и расходов</title>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header__wrapper">
+        <a class="header__logo" href="index.html">
+          <img class="logo__icon" src="assets/icons/coin.svg" alt="Копейка" width="60px" height="50px">
+          <p class="logo__text">Копейка</p>
+        </a>
+        <div class="total__wrapper">
+          <p>Баланс:</p>          
+          <div>
+            <span class="budget">0</span>
+            <select class="select-currency">
+              <option value="BYN">BYN</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </div>
+        </div>
+        <!-- <a class="header__wallet hidden--sm" href="#">
+          <img class="wallet__icon" src="assets/icons/wallet.svg" alt="Моё кошелёк" width="50px" height="50px">
+        </a> -->
+        <!-- <button class="burger-btn" type="menu">
+          <span></span>
+        </button> -->
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="content">
+      <!--tabs-->
+      <div class="tabs">
+        <!--tabs navigation-->
+        <div class="tabs__nav">
+            <ul class="tabs__nav-list">
+              <li class="tabs__nav-item tab--expenses js-active">Расходы</li>
+              <li class="tabs__nav-item tab--income">Доходы</li>
+              <li class="tabs__nav-item tab--total">Операции</li>
+              <li class="tabs__nav-item tab--categories">Категории</li>
+            </ul>
+        </div>
+        <div class="tabs__panels">
+          <!-- expenses -->
+          <a type="button" href="#add-expenses" class="btn btn--open">+</a>
+          <div class="tabs__panel tab--expenses">
+            <div id="add-expenses" class="modal-window">
+              <div class="modal-inner">
+                <div class="modal-window__header">
+                  <div class="modal-window__header-buttons">
+                    <a href="#" class="btn btn--back">&larr;</a>
+                    <a href="#" class="btn btn--save">&check;</a>
+                  </div>
+                  <h2 class="modal-window__title">Добавить расходы</h2>
+                </div>
+                <div class="modal-window__body">
+                  <div class="expenses__wrapper">
+                    <input class="expenses__sum" type="number" placeholder="0">
+                    <select class="select-currency">
+                      <option value="BYN">BYN</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
+                  <input class="expenses__date" type="date">
+                  <div class="categories-list">
+                    <div class="fold-list fold-list--expenses">
+                      <div class="btn__wrapper">
+                        <a type="button" href="#add-category" class="btn  btn--add-category">+</a>
+                      </div>
+                    </div>
+                    <button class="btn btn--fold hidden">Свернуть</button>
+                    <!-- <button class="btn btn--unfold">...</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- income -->
+          <div class="tabs__panel tab--income">
+            <a type="button" href="#add-income" class="btn btn--open">+</a>
+            <div id="add-income" class="modal-window">
+              <div class="modal-inner">
+                <div class="modal-window__header">
+                  <div class="modal-window__header-buttons">
+                    <a href="#" class="btn btn--back">&larr;</a>
+                    <a href="#" class="btn btn--save">&check;</a>
+                  </div>
+                  <h2 class="modal-window__title">Добавить доходы</h2>
+                </div>
+                <div class="modal-window__body">
+                  <div class="income__wrapper">
+                    <input class="income__sum" type="number" placeholder="0">
+                    <select class="select-currency">
+                      <option value="BYN">BYN</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
+                  <input class="income__date" type="date">
+                  <div class="categories-list">
+                    <div class="fold-list fold-list--income">
+                      <div class="btn__wrapper">
+                        <a type="button" href="#add-category" class="btn btn--add-category">+</a>
+                      </div>
+                    </div>
+                    <button class="btn btn--fold hidden">Свернуть</button>
+                    <!-- <button class="btn btn--unfold">...</button> -->
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+          <!-- total -->
+          <div class="tabs__panel tab--total">
+            <div class="filter__wrapper">
+              <div class="filter__item">
+                <input class="filter-date" type="text" placeholder="Дата">
+              </div>
+              <div class="filter__item">
+                <select class="filter-category"></select>
+              </div>
+              <div class="filter__item">
+                <select class="filter-operation">
+                  <option value="all">Все</option>
+                  <option value="expenses">Расходы</option>
+                  <option value="income">Доходы</option>
+                </select>
+              </div>
+              <div class="filter__item">
+                <input class="filter-sum" type="text" placeholder="Сумма">
+              </div>
+            </div>
+            <div class="total__list"></div>
+            <div class="modal-window modal-window--total hidden">
+              <div class="modal-inner">
+                <div class="modal-window__header">
+                  <div class="modal-window__header-buttons">
+                    <a href="#" class="btn btn--back">&larr;</a>
+                    <a href="#" class="btn btn--save">&check;</a>
+                  </div>
+                  <h2 class="modal-window__title">Изменить операцию</h2>
+                </div>
+                <div class="modal-window__body">
+                  <div class="income__wrapper">
+                    <input class="modal__sum" type="number" placeholder="0">
+                    <select class="select-currency">
+                      <option value="BYN">BYN</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
+                  <select class="modal__category"></select>
+                  <input class="modal__date" type="date">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- categories -->
+          <div class="tabs__panel tab--categories">
+            <div class="tabs__panel-card">
+              <div class="categories__list">
+                <div class="new__list"></div>
+              </div>
+              <a type="button" href="#add-category" class="btn btn--open btn--add-category">+</a>
+              <div id="add-category" class="modal-window">
+                <div class="modal-inner">
+                  <div class="modal-window__header">
+                    <div class="modal-window__header-buttons">
+                      <a href="#" class="btn btn--back">&larr;</a>
+                      <a href="#" class="btn btn--save">&check;</a>
+                    </div>
+                    <h2 class="modal-window__title">Добавить категорию</h2>
+                  </div>
+                  <div class="modal-window__body">
+                    <div class="categories">
+                      <div class="categories__wrapper">
+                        <input class="js-category" type="text" placeholder="Назовите свою категорию">
+                        <div class="buttons__wrapper">
+                          <button class="btn btn--expenses-category">Расходы</button>
+                          <button class="btn btn--income-category">Доходы</button>
+                        </div>
+                      </div>
+                      <div class="categories__list">
+                      </div>
+                    </div>
+                    <div class="categories-list">
+                      <div class="fold-list fold-list--categories">
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/meds.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/vacation.svg" alt="groceries">
+                          </div>
+                        </div>
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/nails.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/clothes.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/laundry.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/cleaning.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/juwelery.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/installments.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/dry-cleaning.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/therapy.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/repair-service.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/credit.svg" alt="groceries">
+                          </div>
+                        </div>
+        
+                        <div class="categories__item add-item">
+                          <div class="icon__wrapper">
+                            <img class="categories__item-icon" src="assets/icons/categories/renovation.svg" alt="groceries">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <button class="btn btn--unfold">...</button> -->
+                      <!-- лучше плюс -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="./assets/script/variables.js"></script>
+  <script src="./assets/script/tabs.js"></script>
+  <script src="./assets/script/expenses.js"></script>
+  <script src="./assets/script/income.js"></script>
+  <script src="./assets/script/categories.js"></script>
+  <script src="./assets/script/total.js"></script>
+  <script src="./assets/script/buttons.js"></script>
+  <script src="./assets/script/init.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+@import "./base/normalize.scss";
+@import "./abstracts/variables.scss";
+@import "./abstracts/mixins.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: $black;
+  text-decoration: none;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  @include font($fontUbuntu, 300, auto, $black);
+}
+
+header, footer {
+  flex: 0 0 auto;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+input {
+  width: 100%;
+  font-weight: 300;
+
+  &::placeholder {
+    color: $black;
+  }
+}
+select {
+  font-weight: 300;
+}
+
+@import "./base/fonts.scss";
+@import "./layout/header.scss";
+@import "./layout/filter.scss";
+@import "./components/tabs.scss";
+@import "./components/modal-window.scss";
+@import "./components/buttons.scss";
+@import "./modules/expenses.scss";
+@import "./modules/income.scss";
+@import "./modules/categories.scss";
+@import "./modules/total.scss";
+@import "./abstracts/specific-classes.scss";
