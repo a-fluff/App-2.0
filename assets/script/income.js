@@ -8,6 +8,8 @@ let incomeDate = document.querySelector('.income__date');
 
 let wrappersIncome = [];
 
+let iconIncomeChosen = false;
+
 
 addIncomeBtn.addEventListener('click', function() {
   incomeDate.value = renderTodayDate();
@@ -19,7 +21,7 @@ saveIncomeBtn.addEventListener('click', saveIncome);
 
 function saveIncome(e) {
   //!должно быть еще условие по иконке + валидация суммы
-  if(incomeSum.value) {
+  if(incomeSum.value && iconIncomeChosen) {
 
     //добавление записи уже существующей даты
     if(incomeDates.find(item => item == incomeDate.value)) {
@@ -155,6 +157,8 @@ function getIconWrapper(e) {
 
   let selectedIcon = e.target;
 
+  iconIncomeChosen = true;
+
   function getIcon() {
     if(selectedIcon.classList.contains('categories__item-icon')) {
       selectedIcon = selectedIcon.parentElement;
@@ -256,6 +260,7 @@ function clearIncomeForm() {
   incomeSum.value = '';
   unSelectItem();
   incomeDate.value = renderTodayDate();
+  iconIncomeChosen = false;
 };
 
 function getIncomeNumber() {

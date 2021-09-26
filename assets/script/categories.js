@@ -20,6 +20,8 @@ let operationType;
 
 let clickNumber = 0;
 
+let iconChosen = false;
+
 
 btnNewCategory.addEventListener('click', addCategory);
 
@@ -77,6 +79,8 @@ function getCategoryModalIcon(e) {
   clickNumber++;
   let selectedIcon = e.target;
 
+  iconChosen = true;
+
   function getIcon() {
     if(selectedIcon.classList.contains('icon__wrapper')) {
       selectItem(selectedIcon);
@@ -108,16 +112,13 @@ function clearCategoryForm() {
   newCategory.value = '';
   unSelectItem();
   clickNumber = 0;
+  iconChosen = false;
 };
 
 function validateCategory(category) {
   let hasError = false;
   
-  if(category === '') {
-    hasError = true;
-  } else if(categories.includes(category)) {
-    hasError = true;
-  } else if(!operationType) {
+  if(category === '' || categories.includes(category) || !operationType || !iconChosen) {
     hasError = true;
   };
 
@@ -336,12 +337,14 @@ function setNoNameCategory(category) {
 function deleteExpensesCategoryIcon() {
   let expensesIcon = Array.from(expensesIconsList.querySelectorAll('img')); //все картинки
   let undefinedIcon = expensesIcon.filter(item => item.getAttribute("src") == "undefined");
+
   undefinedIcon.forEach(item => item.parentElement.parentElement.classList.add('hidden'));
 };
 
 function deleteIncomeCategoryIcon() {
   let incomesIcon = Array.from(incomeIconsList.querySelectorAll('img')); //все картинки
   let undefinedIcon = incomesIcon.filter(item => item.getAttribute("src") == "undefined");
+
   undefinedIcon.forEach(item => item.parentElement.parentElement.classList.add('hidden'));
 };
 

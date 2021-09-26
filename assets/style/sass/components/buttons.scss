@@ -6,6 +6,7 @@
     height: 96.6px;
     display: flex;
     justify-content: center;
+    margin: 0 auto;
   }
 
   &--open {
@@ -66,22 +67,37 @@
     }
   }
   &--unfold {
-    width: 65px;
-    height: 68.2px;
-    font-size: 40px;
-    padding: 0 18px;
+    width: 80px;
+    height: 83.2px;
+    color: #000000;
+    font-weight: 300;
+    background-color: rgba(45, 218, 165, 0.4);
+    border-radius: 50%;
+    box-shadow: 0 2px 2px rgb(0 0 0 / 20%);
+    font-size: 50px;
     text-align: center;
+    padding: 10px 22px;
+    margin-bottom: 20px;
+
+
   }
   &--fold {
+    display: block;
     font-size: 15px;
     font-weight: 400;
     color: #26b388;
     background: transparent;
-    float: right;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    //padding: 0 7px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+
+
+    @media screen and (min-width: 510px) {
+      padding-bottom: 20px;
+      float: right;
+    }
   }
   &--add-category {
     font-size: 50px;
@@ -114,7 +130,9 @@
     }
   }
 }
-
+#add-income .btn--fold {
+  float: right;
+}
 .categories__item .btn--save-category {
   margin-left: 10px;
   width: 85px;
@@ -122,5 +140,5 @@
 .buttons__wrapper {
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }

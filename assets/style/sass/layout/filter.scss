@@ -2,9 +2,34 @@
 
   &__wrapper {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+
+    div {
+      border: $black 1px solid;
+      border-radius: 7px;
+
+        &:not(:last-child) {
+          margin-bottom: 6px;
+          @media screen and (min-width: 380px) {
+            margin-bottom: 0;
+            margin-right: 6px;
+          }
+        }
+    }
+    * {
+      width: 100%;
+      outline: none;
+      border: none;
+      padding: 1px 3px;
+    }
+    
+
+    @media screen and (min-width: 380px) {
+      flex-direction: row;
+    }
   }
 
   &__item {

@@ -82,20 +82,27 @@ input.category__title {
 }
 .control__wrapper {
   display: flex;
+  margin-right: 3px;
 
-  @media screen and (min-width: 390px) {
+    img {
+      &:last-child {
+        margin-right: -9px;
+      }
+    }
+
+  @media screen and (min-width: 380px) {
     img:first-child {
       margin-right: 5px;
     }
   }
   @media screen and (min-width: 420px) {
     img:first-child {
-      margin-right: 10px;
+      margin-right: 12px;
     }
   }
   @media screen and (min-width: 500px) {
     img:first-child {
-      margin-right: 15px;
+      margin-right: 20px;
     }
   }
   @media screen and (min-width: 600px) {

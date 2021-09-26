@@ -91,23 +91,23 @@ function deleteTotalOperation(index) {
     let a = Array.from(expensesSum).findIndex(item => item.textContent == -deletedOperation[0].sum);
     let b = Array.from(expensesCategory).findIndex(item => item.textContent == deletedOperation[0].category);
     // let c = Array.from(expensesDateOutput).findIndex(item => item == searchDate(deletedOperation[0].date)); 
-    //!неправильно
+    //!неправильно с зависит от количества операций в обертке, не всегда Б и на 1
     let c = expensesDates.findIndex(item => deletedOperation[0].date);
 
     console.log(wrappers.length, expensesOperations.length)
 
-    if(Array.from(wrapperTotal).find(item => item.children.length <= 1)) {
-      if(a === b && b === c) {
-        console.log('В КАЖДОМ ВРАППЕРЕ ПО ОДНОМУ')
-        wrappers[a].remove();
-        expensesDateOutput[a].remove();
-      };
-    } else {
-      if(a === b && (b - c == 1)) {
-        console.log('ВО ВРАППЕРАХ ЕСТЬ НЕСКОЛЬКО ЗАПИСЕЙ');
-        expensesOperations[a].remove()
-      };
-    };
+    // if(Array.from(wrapperTotal).find(item => item.children.length <= 1)) {
+    //   if(a === b && b === c) {
+    //     console.log('В КАЖДОМ ВРАППЕРЕ ПО ОДНОМУ')
+    //     wrappers[a].remove();
+    //     expensesDateOutput[a].remove();
+    //   };
+    // } else {
+    //   if(a === b && (b - c == 1)) {
+    //     console.log('ВО ВРАППЕРАХ ЕСТЬ НЕСКОЛЬКО ЗАПИСЕЙ');
+    //     expensesOperations[a].remove()
+    //   };
+    // };
 
 
     console.log(a, b, c);
@@ -179,7 +179,7 @@ function renderTotal(arr) {
 //Итоговая сумма бюджета
 function getBudget(arr) {
   if(arr == total) {   
-    budget.textContent = (getTotalIncome() - getTotalExpenses()).toFixed();
+    budget.textContent = (getTotalIncome() - getTotalExpenses()).toFixed(2);
   };
 };
 

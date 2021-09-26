@@ -6,11 +6,9 @@ let expensesSum = document.querySelector('.expenses__sum');
 let expensesIconsList = document.querySelector('.fold-list--expenses');
 let expensesDate = document.querySelector('.expenses__date');
 
-let showMoreBtn = document.querySelectorAll('.btn--unfold');
-let foldableList = document.querySelectorAll('.fold-list');
-let foldBtn = document.querySelectorAll('.btn--fold');
-
 let wrappersExpenses = [];
+
+let iconExpensesChosen = false;
 
 
 
@@ -76,7 +74,7 @@ saveExpensesBtn.addEventListener('click', saveExpenses);
 
 function saveExpenses(e) {
   //!должно быть еще условие по иконке + валидация суммы
-  if(expensesSum.value) {
+  if(expensesSum.value && iconExpensesChosen) {
     // wrappersExpenses = document.querySelectorAll('.tab--expenses .expenses-output__wrapper');
     // console.log(wrappersExpenses);
 
@@ -223,12 +221,12 @@ function addOperation(operation) {
       operation: flagOperation
     };
 
-    // total.push(newIncome);
+    total.push(newIncome);
 
-    totalIncome.push(newIncome);
+    // totalIncome.push(newIncome);
 
-    //!
-    total = [...totalExpenses, ...totalIncome];
+    // //!
+    // total = [...totalExpenses, ...totalIncome];
   
     clearIncomeForm();
   
@@ -292,6 +290,8 @@ function getIconWrapper(e) {
   let expensesTitleOutput = document.querySelector('.expenses-title');
 
   let selectedIcon = e.target;
+
+  iconExpensesChosen = true;
 
   function getIcon() {
     if(selectedIcon.classList.contains('categories__item-icon')) {
@@ -377,6 +377,7 @@ function clearExpensesForm() {
   expensesSum.value = '';
   unSelectItem();
   expensesDate.value = renderTodayDate();
+  iconExpensesChosen = false;
 };
 
 function renderChangedExpensesTotal(category, item) {
@@ -408,20 +409,6 @@ function selectItem(item) {
 function unSelectItem() {
   Array.from(document.querySelectorAll('.selected')).forEach(item => item.classList.remove('selected'));
 };
-
-//кнопка развернуть (показать ещё)
-showMoreBtn.forEach((item, index) => item.addEventListener('click', function() {
-  foldableList[index].classList.add('unfold-list');
-  item.parentElement.classList.add('hidden');
-  foldBtn[index].classList.remove('hidden');
-}));
-
-//кнопка свернуть
-foldBtn.forEach((item, index) => item.addEventListener('click', function() {
-  foldableList[index].classList.remove('unfold-list');
-  showMoreBtn[index].parentElement.classList.remove('hidden');
-  item.classList.add('hidden');
-}));
 
 //Рендер записей расходов //!мб здесь что-то после изменения в тотале
 function renderExpensesNotes(category, value) {
