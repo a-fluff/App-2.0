@@ -176,7 +176,7 @@ function saveTotal(){
   if(searchOperation == 'expenses') {
     editedExpensesOperation(searchEditedTitle, searchEditedSum, searchEditedDate);
   } else {
-    editeIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate);
+    editedIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate);
   };
 
   clearSearch();
@@ -340,7 +340,7 @@ function editedExpensesOperation(searchEditedTitle, searchEditedSum, searchEdite
   };
 };
 
-function editeIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate) {
+function editedIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate) {
   let incomeOperations = document.querySelectorAll('.income-output');
   let incomeSum = document.querySelectorAll('.income-received');
   let incomeCategory = document.querySelectorAll('.income-title');
