@@ -24,7 +24,6 @@ function saveIncome(e) {
 
     //добавление записи уже существующей даты
     if(incomeDates.find(item => item == incomeDate.value)) {
-      console.log('income', incomeDate, incomeDates)
       addIncomeSameDate();
 
       addOperation("income");
@@ -63,6 +62,8 @@ function saveIncome(e) {
   renderTotal(total);
 
   window.location.href = "#";
+
+  showExpAddBtn(e);
 };
 
 function sortEarlierIncomeDates(incomeDateOutputAll) {
@@ -107,23 +108,6 @@ function sortEarlierIncomeDates(incomeDateOutputAll) {
       clearIncomeForm();
     };
   };
-};
-
-//создание новой записи доходов
-function addIncome() {
-
-  //дата
-  //incomeDateOutput.textContent = getIncomeDate();
-
-  //иконка расходов
-  //getIcon();
-
-  //наименование расхода
-  //expensesTitleOutput.textContent = getItem[1];
-
-  //сумма расходов
-  //incomeSumOutput.textContent = `+${incomeSum.value}`;
-  //console.log(expensesTitleOutput.textContent, expensesSelectedIconOutput);
 };
 
 //создание новой записи доходов уже существующей даты
@@ -283,7 +267,11 @@ function renderIncomeCategory() {
 function renderIncomeNotes(category, value) {
   let incomeCategory = document.querySelectorAll('.income-title');
 
-  Array.from(incomeCategory).forEach(title => title.textContent = value);
+  Array.from(incomeCategory).forEach(title => {
+    if(title.textContent == category) {
+      title.textContent = value;
+    }
+  });
 };
 
 function renderChangedIncomeTotal(category, item) {

@@ -181,7 +181,7 @@ function templateCategory(name) {
   wrapperCategory.className = 'categories__item';
 
   let iconWrapper = document.createElement('div');
-  iconWrapper.className = 'icon__wrapper'; //!
+  iconWrapper.className = 'icon__wrapper';
 
   let icon = document.createElement('img');
   icon.className = 'categories__item-icon';
@@ -246,6 +246,8 @@ function renameCategory(parentElement) {
     categories.forEach(function(item, index) {
       if(item === category) {
         categories[index] = inputItem.value;
+
+        console.log(index, category)
       };
     });
 
@@ -255,6 +257,8 @@ function renameCategory(parentElement) {
 
         renderExpensesNotes(category, inputItem.value);
         renderChangedExpensesTotal(category, inputItem.value);
+
+        console.log(index, category)
       };
     });
 
@@ -264,8 +268,12 @@ function renameCategory(parentElement) {
 
         renderIncomeNotes(category, inputItem.value);
         renderChangedIncomeTotal(category, inputItem.value);
+
+        console.log(index, category)
       };
     });
+
+    console.log(categoriesExpenses, categories, inputItem.value)
 
     statusEditCategory = false;
 
@@ -309,7 +317,7 @@ function setNoNameCategory(category) {
     let categoriesExpensesNew = document.querySelectorAll('.expenses-title');
 
     let noNameExpenses = Array.from(categoriesExpensesNew).filter(title => title.textContent == category);
-
+    console.log(categoriesExpensesNew, noNameExpenses)
     Array.from(noNameExpenses).forEach(item => {
       item.classList.add('unknown');
       item.textContent = 'Неизвестные расходы';

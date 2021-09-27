@@ -78,20 +78,11 @@ function saveExpenses(e) {
   if(expensesSum.value && iconExpensesChosen) {
 
     if(expensesDates.find(item => item == expensesDate.value)) {
-
-      console.log(total)
-
       addExpensesSameDate();
-
-      console.log(total)
 
       addOperation("expenses");
 
-      console.log(total)
-
       sortOperations(total);
-
-      console.log(total)
 
       clearExpensesForm();
     } else {
@@ -138,6 +129,7 @@ function sortEarlierExpensesDates(expensesDateOutputAll) {
 
   function getBiggestExpensesDate() {
     let biggest = earlierExpensesDates[0];
+    
     for(let i = 1; i < earlierExpensesDates.length; i++) {
       if(earlierExpensesDates[i] > biggest) {
         biggest = earlierExpensesDates[i];
@@ -420,7 +412,11 @@ function unSelectItem() {
 function renderExpensesNotes(category, value) {
   let expensesCategory = document.querySelectorAll('.expenses-title');
 
-  Array.from(expensesCategory).forEach(title => title.textContent = value);
+  Array.from(expensesCategory).forEach(title => {
+    if(title.textContent == category) {
+      title.textContent = value;
+    }
+  });
 };
 
 //Рендер списка категорий в модальном окне

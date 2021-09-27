@@ -82,42 +82,64 @@ function deleteTotalOperation(index) {
   let permission = confirm('Удалить запись?');
 
   if(permission) {
-    let deletedOperation = total.splice(index, 1); //удаленная запись
+    //удаленная запись
+    let deletedOperation = total.splice(index, 1);
 
     renderTotal(total);
 
-    console.log(total);
+    if(deletedOperation[0].operation == 'expenses') {
+      deleteExpensesOperation(deletedOperation);
+    } else {
+      deleteIncomeOperation(deletedOperation);
+    };
+  };
+};
 
-    let wrappers = document.querySelectorAll('.expenses-output__wrapper');
-    let expensesOperations = document.querySelectorAll('.expenses-output');
+function deleteExpensesOperation(deletedOperation) {
+  let expensesOperations = document.querySelectorAll('.expenses-output');
 
-    let expensesSum = document.querySelectorAll('.expenses-spent');
-    let expensesCategory = document.querySelectorAll('.expenses-title');
-    let expensesDateOutput = document.querySelectorAll('.expenses-date');
+  let expensesSum = document.querySelectorAll('.expenses-spent');
+  let expensesCategory = document.querySelectorAll('.expenses-title');
 
-    //Поиск удалённой записи
-    let a = Array.from(expensesSum).findIndex(item => item.textContent == -deletedOperation[0].sum);
-    let b = Array.from(expensesCategory).findIndex(item => item.textContent == deletedOperation[0].category);
+  //Поиск удалённой записи
+  let a = Array.from(expensesSum).findIndex(item => item.textContent == -deletedOperation[0].sum);
+  let b = Array.from(expensesCategory).findIndex(item => item.textContent == deletedOperation[0].category);
+  let deletedExpensesOperationDate = expensesOperations[a].parentElement.previousElementSibling;
+  let c = deletedExpensesOperationDate.textContent;
 
-    if(a == b) {
-      let deletedExpensesOperation = expensesOperations[a].parentElement.previousElementSibling;
-
-      console.log(deletedExpensesOperation.textContent, searchDate(deletedOperation[0].date), expensesOperations[a].previousElementSibling,  expensesOperations[a].nextElementSibling)
-
-      if(deletedExpensesOperation.textContent == searchDate(deletedOperation[0].date)) {
-        if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
-          console.log('here')
-          expensesOperations[a].remove();
-        } else {
-          console.log('here')
-          deletedExpensesOperation.remove();
-          expensesOperations[a].parentElement.remove();
-        };
+  if(a == b) {
+    if(c == searchDate(deletedOperation[0].date)) {
+      if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
+        expensesOperations[a].remove();
+      } else {
+        deletedExpensesOperationDate.remove();
+        expensesOperations[a].parentElement.remove();
       };
     };
-    
-    console.log(a, b);
-    console.log(total)
+  };
+};
+
+function deleteIncomeOperation(deletedOperation) {
+  let incomeOperations = document.querySelectorAll('.income-output');
+  let incomeSum = document.querySelectorAll('.income-received');
+  let incomeCategory = document.querySelectorAll('.income-title');
+  console.log(incomeSum)
+  //Поиск удалённой записи
+  let a = Array.from(incomeSum).findIndex(item => item.textContent == +deletedOperation[0].sum);
+  let b = Array.from(incomeCategory).findIndex(item => item.textContent == deletedOperation[0].category);
+  console.log(incomeOperations[a])
+  let deletedIncomeOperationDate = incomeOperations[a].parentElement.previousElementSibling;
+  let c = deletedIncomeOperationDate.textContent;
+
+  if(a == b) {
+    if(c == searchDate(deletedOperation[0].date)) {
+      if(incomeOperations[a].previousElementSibling || incomeOperations[a].nextElementSibling) {
+        incomeOperations[a].remove();
+      } else {
+        deletedIncomeOperationDate.remove();
+        incomeOperations[a].parentElement.remove();
+      };
+    };
   };
 };
 
@@ -128,101 +150,237 @@ function openModal() {
 saveTotalBtn.addEventListener("click", saveTotal);
 
 function saveTotal(){
-
-  // console.log(total.indexOf(aaa))
-  // let findOperation = {
-  //   sum: editOperationSum.value,
-  //   category: editOperationCategory.value,
-  //   date: editOperationDate.value,
-  //   operation: 'expenses'
-  // };
-
-  // let index = total.findIndex(operation => JSON.stringify(operation) === JSON.stringify(findOperation));
-  
-  // console.log(index);
-
-  // console.log(opertaionNumber)
-
-
   //Поиск изменённой записи
-  //!both exp and income
+  let searchEditedTitle = null;
+  let searchEditedSum = null;
+  let searchEditedDate = null;
 
-  let expensesOperations = document.querySelectorAll('.expenses-output');
-  let expensesSum = document.querySelectorAll('.expenses-spent');
-  let expensesCategory = document.querySelectorAll('.expenses-title');
+  //Параметры искомое записи
+  searchEditedTitle = total[opertaionNumber].category;
+  searchEditedSum = getSumFromTotal();
+  searchEditedDate = total[opertaionNumber].date;
+  searchOperation = total[opertaionNumber].operation;
 
-  if(total[opertaionNumber].operation == 'expenses') {
-    console.log(expensesOperations)
-    let searchEditedTitle = null;
-    let searchEditedSum = null;
-    let searchEditedDate = null;
+  total[opertaionNumber].sum = editOperationSum.value;
+  total[opertaionNumber].category = editOperationCategory.value;
+  total[opertaionNumber].date = editOperationDate.value; //новое значение
 
-    searchEditedTitle = searchEditedTitle = total[opertaionNumber].category;
-    searchEditedSum = total[opertaionNumber].sum;
-    searchEditedDate = searchDate(total[opertaionNumber].date);//старое значение
-
-    console.log(searchEditedTitle, searchEditedSum, searchEditedDate);
-
-    //!Новые значения, которые нужно переписыть в экспенсис
-    total[opertaionNumber].sum = editOperationSum.value;
-    total[opertaionNumber].category = editOperationCategory.value;
-    total[opertaionNumber].date = editOperationDate.value; //новое значение
-
-    console.log(total, searchEditedTitle)
-
-    //Номер
-    let a  = Array.from(expensesSum).findIndex(item => item.textContent == -searchEditedSum);
-    let b = Array.from(expensesCategory).findIndex(item => item.textContent == searchEditedTitle);
-
-    if(a == b) {
-      //значение из записи в expenses
-      let editedExpensesOperationDate = expensesOperations[a].parentElement.previousElementSibling;
-
-      console.log(searchEditedDate)
-  
-      if(editedExpensesOperationDate.textContent == searchEditedDate) {
-        if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
-          console.log('ОТРЕДАЧ ЗАПИСЬ ОДНОГО ЧИСЛА');
-
-          console.log(expensesOperations[a])
-
-          //!перезапись в:
-          expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
-          expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
-          expensesOperations[a].parentElement.previousElementSibling.textContent = total[opertaionNumber].date;
-
-
-        } else {
-          console.log('ОТРЕДАЧ ЗАПИСЬ НОВОГО ЧИСЛА');
-
-          expensesOperations[a].querySelector('.expenses-spent').textContent = total[opertaionNumber].sum;
-          expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
-          expensesOperations[a].parentElement.previousElementSibling.textContent = total[opertaionNumber].date;
-          // wrapper.remove();
-          // operationDateOutput.remove();
-        };
-      };
+  function getSumFromTotal() {
+    if(total[opertaionNumber].sum.toString().includes('-') || total[opertaionNumber].sum.toString().includes('+')) {
+      return total[opertaionNumber].sum.toString().slice(1)
+    } else {
+      return total[opertaionNumber].sum;
     };
-
-
-
-
-
-    console.log(a, b);
-
-    searchEditedTitle = null;
-    searchEditedSum = null;
-    searchEditedDate = null;
-
-
-
   };
+
+  if(searchOperation == 'expenses') {
+    editedExpensesOperation(searchEditedTitle, searchEditedSum, searchEditedDate);
+  } else {
+    editeIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate);
+  };
+
+  clearSearch();
+
+  sortOperations(total);
 
   filterTotal(total);
   
   closeModal();
+};
 
-  console.log(total);
+function clearSearch() {
+  searchEditedTitle = null;
+  searchEditedSum = null;
+  searchEditedDate = null;
+};
+
+function editedExpensesOperation(searchEditedTitle, searchEditedSum, searchEditedDate) {
+  let expensesOperations = document.querySelectorAll('.expenses-output');
+  let expensesSum = document.querySelectorAll('.expenses-spent');
+  let expensesCategory = document.querySelectorAll('.expenses-title');
+
+  let indexExp = expensesDates.indexOf(editOperationDate.value);
+
+  expensesDates.splice(indexExp, 1);
+  expensesDates.push(editOperationDate.value);
+  expensesDates.sort().reverse();
+
+  console.log(expensesDates)
+  //!запустить сортировку
+
+  let a  = Array.from(expensesSum).findIndex(item => item.textContent == -searchEditedSum);
+  let b = Array.from(expensesCategory).findIndex(item => item.textContent == searchEditedTitle);
+  let editedExpensesOperationDate = expensesOperations[a].parentElement.previousElementSibling;
+  let c = editedExpensesOperationDate.textContent;
+
+  if(a == b) {
+    console.log(searchEditedDate)
+
+    if(c == searchDate(searchEditedDate)) {
+      if(expensesOperations[a].previousElementSibling || expensesOperations[a].nextElementSibling) {
+        let i = categories.indexOf(total[opertaionNumber].category);
+        expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
+        expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+        expensesOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        expensesOperations[a].querySelector('img').src = iconSrc[i];
+        
+        // // createOperatioWrapper('expenses');
+        // let expensesDateOutputAll = document.querySelectorAll('.expenses-date');
+
+        // if(expensesDateOutputAll.length >= 2) {
+        //   let curentWrapper = document.querySelector('.expenses-output__wrapper');
+
+        //   let earlierExpensesDates = expensesDates.filter(item => item < expensesDate.value);
+        
+        //   function getBiggestExpensesDate() {
+        //     let biggest = earlierExpensesDates[0];
+            
+        //     for(let i = 1; i < earlierExpensesDates.length; i++) {
+        //       if(earlierExpensesDates[i] > biggest) {
+        //         biggest = earlierExpensesDates[i];
+        //       }
+        //     };
+            
+        //     return biggest;
+        //   };
+
+        //     //если текущая дата меньше всех в массиве
+        //     if(earlierExpensesDates.filter(item => item > expensesDate.value)) {
+        //       if(earlierExpensesDates.length == 0) {
+        //         addExpenses();
+
+        //         wrappersExpenses[wrappersExpenses.length - 1].after(curentWrapper);
+        //         curentWrapper.before(expensesDateOutputAll[0]);
+
+        //         let i = categories.indexOf(total[opertaionNumber].category);
+        //         expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
+        //         expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+        //         expensesOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        //         expensesOperations[a].querySelector('img').src = iconSrc[i];
+        //       } else {
+        //         //Наибольшая из предыдуших дата
+        //         let biggestDate = new Date(getBiggestExpensesDate()).toLocaleDateString('ru', options);
+        //         let biggestDateOutput = Array.from(expensesDateOutputAll).find(item => item.textContent == biggestDate);
+
+        //         expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
+        //         expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+        //         expensesOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        //         expensesOperations[a].querySelector('img').src = iconSrc[i];
+
+        //         biggestDateOutput.before(curentWrapper.previousElementSibling);
+        //         biggestDateOutput.before(curentWrapper);
+        //       };
+        //     };
+          
+        //   sortOperations(total);
+        // } else {
+        //   //Создание первой записи
+        //   let i = categories.indexOf(total[opertaionNumber].category);
+
+        //   let activeTab = document.querySelector('.tabs__panels .js-active');
+        //   let expensesTab = document.querySelector('.tabs__panels .tab--expenses');
+        //   let incomeTab = document.querySelector('.tabs__panels .tab--income');
+
+        //   let wrapper = document.createElement('div');
+        //   wrapper.className = `expenses-output__wrapper`;
+
+        //   let operationNote = document.createElement('div');
+        //   let operationSelectedIconOutput = document.createElement('div');
+        //   let operationTitleOutput = document.createElement('p');
+        //   let operationSumOutput = document.createElement('p');
+        
+        //   operationNote.className = `expenses-output`;
+
+        //   let wrapperCategory = document.createElement('div');
+        //   wrapperCategory.className = 'categories__item';
+        
+        //   let iconWrapper = document.createElement('div');
+        //   iconWrapper.className = 'icon__wrapper';
+
+        //   let icon = document.createElement('img');
+        //   icon.className = 'categories__item-icon';
+        //   icon.src = iconSrc[i];
+        //   iconWrapper.appendChild(icon);
+        
+        //   wrapperCategory.appendChild(iconWrapper);
+          
+        //   operationTitleOutput.className = `expenses-title`;
+        //   operationTitleOutput.classList = total[opertaionNumber].category;
+        //   operationSumOutput.classList = `expenses-spent`;
+        //   operationSumOutput.textContent = -total[opertaionNumber].sum;
+        
+        //   operationNote.appendChild(wrapperCategory);
+        //   operationNote.appendChild(operationSelectedIconOutput);
+        //   operationNote.appendChild(operationTitleOutput);
+        //   operationNote.appendChild(operationSumOutput);
+
+
+
+        //   wrapper.appendChild(operationNote);
+
+        //   if(activeTab.classList.contains('tab--expenses')) {
+        //     expensesTab.prepend(wrapper);
+        //     expensesTab.prepend(operationDateOutput); 
+        
+        //     console.log(expensesTab, wrapper, operationDateOutput)
+        //   } else if(activeTab.classList.contains('tab--income')) {
+        //     incomeTab.prepend(wrapper);
+        //     incomeTab.prepend(operationDateOutput); 
+        //   }
+        // }
+      } else {
+        //!сортировать по датам
+        let i = categories.indexOf(total[opertaionNumber].category);
+        expensesOperations[a].querySelector('.expenses-spent').textContent = -total[opertaionNumber].sum;
+        expensesOperations[a].querySelector('.expenses-title').textContent = total[opertaionNumber].category;
+        expensesOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        expensesOperations[a].querySelector('img').src = iconSrc[i];
+      };
+    };
+  };
+};
+
+function editeIncomeOperation(searchEditedTitle, searchEditedSum, searchEditedDate) {
+  let incomeOperations = document.querySelectorAll('.income-output');
+  let incomeSum = document.querySelectorAll('.income-received');
+  let incomeCategory = document.querySelectorAll('.income-title');
+
+  let indexInc = incomeDates.indexOf(editOperationDate.value);
+
+  incomeDates.splice(indexInc, 1);
+  incomeDates.push(editOperationDate.value);
+  incomeDates.sort().reverse();
+
+  console.log(incomeDates)
+  //!запустить сортировку
+  console.log(total, searchEditedTitle)
+
+  let a  = Array.from(incomeSum).findIndex(item => item.textContent == +searchEditedSum);
+  let b = Array.from(incomeCategory).findIndex(item => item.textContent == searchEditedTitle);
+  let editedIncomeOperationDate = incomeOperations[a].parentElement.previousElementSibling;
+  let c = editedIncomeOperationDate.textContent;
+
+  if(a == b) {
+    console.log(searchEditedDate)
+
+    if(c == searchDate(searchEditedDate)) {
+      if(incomeOperations[a].previousElementSibling || incomeOperations[a].nextElementSibling) {
+        //!сортировка
+        let i = categories.indexOf(total[opertaionNumber].category);
+
+        incomeOperations[a].querySelector('.income-received').textContent = +total[opertaionNumber].sum;
+        incomeOperations[a].querySelector('.income-title').textContent = total[opertaionNumber].category;
+        incomeOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        incomeOperations[a].querySelector('img').src = iconSrc[i];
+      } else {
+        let i = categories.indexOf(total[opertaionNumber].category);
+        incomeOperations[a].querySelector('.income-received').textContent = +total[opertaionNumber].sum;
+        incomeOperations[a].querySelector('.income-title').textContent = total[opertaionNumber].category;
+        incomeOperations[a].parentElement.previousElementSibling.textContent = searchDate(total[opertaionNumber].date);
+        incomeOperations[a].querySelector('img').src = iconSrc[i];
+      };
+    };
+  };
 };
 
 backTotalBtn.addEventListener("click", closeModal);
@@ -337,9 +495,10 @@ filterSum.addEventListener('input', function() {
 });
 
 function filterTotal(){
+
   let totalFilers = total.filter((item) => {
       return (item.date.includes(paramsFitlers.date) || !paramsFitlers.date) && (item.category === paramsFitlers.category || !paramsFitlers.category || paramsFitlers.category === 'all') &&
-      (item.operation === paramsFitlers.operation || !paramsFitlers.operation || paramsFitlers.operation === 'all') && (item.sum.includes(paramsFitlers.sum) || !paramsFitlers.sum) 
+      (item.operation === paramsFitlers.operation || !paramsFitlers.operation || paramsFitlers.operation === 'all') && (item.sum.toString().slice(1).includes(paramsFitlers.sum) || !paramsFitlers.sum) 
   });
 
   renderTotal(totalFilers)

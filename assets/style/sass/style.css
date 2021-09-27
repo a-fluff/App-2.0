@@ -488,6 +488,7 @@ select {
   width: 100%;
   outline: none;
   border: none;
+  background: transparent;
   padding: 1px 3px;
 }
 @media screen and (min-width: 500px) {
