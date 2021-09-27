@@ -169,14 +169,10 @@ function sortEarlierExpensesDates(expensesDateOutputAll) {
 
 let flagOperation = null;
 
-function getExpensesNumber(operation) {
-  if(operation == "expenses") {
-    expensesDates.sort().reverse();;
-    return expensesDates.indexOf(expensesDate.value);
-  } else {
-    incomeDates.sort().reverse();;
-    return incomeDates.indexOf(incomeDates.value);
-  };
+function getExpensesNumber() {
+  expensesDates.sort().reverse();
+
+  return expensesDates.indexOf(expensesDate.value);
 };
 
 //Добавление записи в тотал
@@ -184,7 +180,7 @@ function addOperation(operation) {
   flagOperation = operation;
 
   if(operation == "expenses") {
-    let index = getExpensesNumber(operation);
+    let index = getExpensesNumber();
 
     let wrappersExpenses = document.querySelectorAll('.tab--expenses .expenses-output__wrapper');
 
